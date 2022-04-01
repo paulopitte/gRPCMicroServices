@@ -29,8 +29,11 @@ namespace GrpcCatalog.Data
 
         public async Task<Product> Update(Product product)
         {
+            //var p = _context.Products.AsNoTracking().FirstOrDefault(x => x.Id == product.Id);
+            //if (p is null)
+            //    return null;
+
             _context.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            //var result = _context.Update(product);
 
             try
             {
@@ -38,8 +41,8 @@ namespace GrpcCatalog.Data
             }
             catch (DbUpdateConcurrencyException ex)
             {
-
-                throw;
+                _logger.LogError(ex, "OPSS erro ocorrido ");
+                return null;
             }
             return product;
 
@@ -61,19 +64,29 @@ namespace GrpcCatalog.Data
 
         public async Task<ProductModel> GetProduct(int id)
         {
-            var p = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (p is null)
-                return null;
-
-            return new ProductModel()
+            try
             {
-                Id = p.Id,
-                Sku = p.Sku,
-                Title = p.Title,
-                Price = p.Price,
-                StatusProduct = Protos.StatusProduct.Actived,
-                CreateAt = Timestamp.FromDateTime(p.CreateAt)
-            };
+                var p =  _context.Products.AsNoTracking().FirstOrDefault(x=>x.Id ==  id);
+                if (p is null)
+                    return null;
+
+                return new ProductModel()
+                {
+                    Id = p.Id,
+                    Sku = p.Sku,
+                    Title = p.Title,
+                    Price = p.Price,
+                    StatusProduct = Protos.StatusProduct.Actived,
+                    CreateAt = Timestamp.FromDateTime(p.CreateAt)
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError($"Product {id} is not found.");
+                return null;
+            }
+            return null;
+            
         }
 
 

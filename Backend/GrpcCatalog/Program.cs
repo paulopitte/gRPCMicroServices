@@ -11,7 +11,12 @@ builder.Services.AddScoped<ICatalogRepository, CatalogRepository>();
 
 // Configurando o acesso a dados de produtos
 builder.Services.AddDbContext<CatalogDbContext>(option =>
-        option.UseInMemoryDatabase("CatalogDb"));
+{
+    option.UseInMemoryDatabase("CatalogDb");
+    option.EnableDetailedErrors(true);
+    option.EnableSensitiveDataLogging(true);
+
+}, ServiceLifetime.Scoped);
 
 
 builder.Services.AddAutoMapper(typeof(ProductProfile));
@@ -33,7 +38,7 @@ app.MapGet("/", () => "Communication with gRPC endpoints must be made through a 
 
 
 static void SeedDb(WebApplication app)
-{   
+{
     var catalogContext = app.Services.GetRequiredService<CatalogDbContext>();
     CatalogDbContextSeed.SeedAsync(catalogContext);
 }

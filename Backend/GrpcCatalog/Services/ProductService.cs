@@ -78,12 +78,12 @@ namespace GrpcCatalog.Services
 
         public override async Task<ProductModel> Update(UpdateRequest request, ServerCallContext context)
         {
+
+            //var isExist = await _repository.GetProduct(request.Product.Id).ConfigureAwait(false);
+            //if (isExist is null)
+            //    throw new RpcException(status: new Status(StatusCode.NotFound, $" Product with ID: {request.Product.Id} is not found."));
+
             var domain = _mapper.Map<Product>(request.Product);
-
-            var isExist = await _repository.GetProduct(domain.Id).ConfigureAwait(false);
-            if (isExist is null)
-                throw new RpcException(status: new Status(StatusCode.NotFound, $" Product with ID: {request.Product.Id} is not found."));
-
             return _mapper.Map<ProductModel>(await _repository.Update(domain));
         }
 

@@ -59,6 +59,22 @@ class Program
 
             Console.WriteLine("Obtendo Produtos via Grpc...");
             await GetProducts(client);
+
+            Console.WriteLine("Atualizando Produtos via Grpc...");
+            await UpdateAsync(client, new()
+            {
+                Id = 1,
+                Sku = "SKU3_POCO",
+                Title = "Xiaomi POCO 600Gb",
+                Price = new Random().Next(5000, 6000),
+                StatusProduct = StatusProduct.Actived,
+            });
+
+            await GetProducts(client);
+
+
+
+
         }
         catch (RpcException ex)
         {
@@ -73,8 +89,7 @@ class Program
 
 
 
-    private static async Task GetProducts(
-    ProductProdtService.ProductProdtServiceClient client)
+    private static async Task GetProducts(ProductProdtService.ProductProdtServiceClient client)
     {
         Console.WriteLine("Produtos cadastrados:");
         using (var call = client.GetProducts(new()))
@@ -111,13 +126,33 @@ class Program
                 Sku = product.Sku,
                 Title = product.Title,
                 Price = product.Price,
-                StatusProduct = product.StatusProduct
+                StatusProduct = product.StatusProduct,
+                CreateAt = product.CreateAt,
             }
         });
 
         Console.WriteLine($"Product Add response:  { result.Title } => { result.Id.ToString()}");
     }
- 
+
+
+    private static async Task UpdateAsync(ProductProdtService.ProductProdtServiceClient client, ProductModel product)
+    {
+        Console.WriteLine($"Alterando o Produto {product.Title}");
+
+        var resultado = await client.UpdateAsync(new UpdateRequest
+        {
+            Product = new ProductModel
+            {
+                Id = product.Id,
+                Sku = product.Sku,
+                Title = product.Title,
+                Price = product.Price,
+                StatusProduct = product.StatusProduct
+            }
+        });
+
+    }
+
 
 
 
