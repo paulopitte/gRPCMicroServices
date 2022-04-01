@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcCatalog.Protos";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+//package Catalog;
+//test
+
+service ProductProdtService {
+	rpc	GetProduct(GetProductRequest) returns (ProductModel);
+	rpc	GetProducts(GetAllProductRequest) returns (stream ProductModel);
+	rpc Test (google.protobuf.Empty) returns (google.protobuf.Empty);
+
+
+rpc Add(AddRequest) returns (ProductModel);
+rpc Update(UpdateRequest) returns (ProductModel);
+rpc Delete(DeleteRequest) returns (DeleteResponse);
+rpc InsertBulk (stream ProductModel) returns (stream InsertBulkResponse);
+
+
+}
+
+message GetProductRequest{
+	int32 id = 1;
+}
+
+message GetAllProductRequest {}
+
+
+message GetAllProductResponse{
+	ProductModel product = 1;
+}
+
+
+
+message AddRequest{
+	ProductModel product = 1;
+}
+
+message UpdateRequest{
+	ProductModel product = 1;
+}
+
+
+
+
+
+message DeleteRequest{
+	int32 id = 1;
+}
+
+message DeleteResponse{
+	bool success = 1;
+}
+
+
+
+message InsertBulkResponse{
+	bool success = 1;
+	int32 insertCount = 2;
+}
+
+message ProductModel{
+	int32 id = 1;
+	string sku =2;
+	string title = 3;
+	float price = 4;
+	StatusProduct statusProduct = 5;
+	google.protobuf.Timestamp createAt = 6;
+}
+
+
+enum StatusProduct {
+	Actived = 0;
+	Inatived = 1;
+}
