@@ -16,7 +16,7 @@ service ProductProdtService {
 rpc Add(AddRequest) returns (ProductModel);
 rpc Update(UpdateRequest) returns (ProductModel);
 rpc Delete(DeleteRequest) returns (DeleteResponse);
-rpc InsertBulk (stream ProductModel) returns (stream InsertBulkResponse);
+rpc InsertBulk(stream ProductModel) returns (stream InsertBulkResponse);
 
 
 }

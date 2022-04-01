@@ -72,7 +72,13 @@ class Program
 
             await GetProducts(client);
 
+            Console.WriteLine("Inserindo Lote de Produtos via Grpc...");
+            await InsertBulk(client).ConfigureAwait(true);
 
+
+
+            Console.WriteLine("Obtendo Produtos via Grpc...");
+            await GetProducts(client);
 
 
         }
@@ -157,37 +163,30 @@ class Program
 
 
 
-    //private static async Task InsertBulk(ProductProdtService.ProductProdtServiceClient client)
-    //{
-    //    var products = new List<ProductModel>
-    //                {
-    //                    new ProductModel
-    //                    {
-    //                        Sku = "SKU1",
-    //                        Title = "IPhone 14 100Gb",
-    //                        Price = 1_000_000,
-    //                        StatusProduct =    StatusProduct.Actived,
-    //                    },
-    //                    new ProductModel
-    //                    {
-    //                        Sku = "SKU2",
-    //                        Title = "IPhone 15 200Gb",
-    //                        Price = 2_000_000,
-    //                        StatusProduct =    StatusProduct.Actived,
-    //                    },
-    //                    new ProductModel
-    //                    {
-    //                        Sku = "SKU3",
-    //                        Title = "IPhone 16 300Gb",
-    //                        Price = 3_000_000,
-    //                        StatusProduct =    StatusProduct.Actived,
-    //                    }
-    //                };
+    private static async Task InsertBulk(ProductProdtService.ProductProdtServiceClient client)
+    {
+
+        using var clientBulk = client.InsertBulk();
+
+        for (int i = 4; i < 15; i++)
+        {
+            var new_product = new ProductModel
+            {
+                Id= i,
+                Sku = $"SKU_{i}",
+                Title = $"Product {i} ",
+                Price = 1_000_000,
+                StatusProduct = StatusProduct.Actived,
+            };
+
+            await clientBulk.RequestStream.WriteAsync(new_product);
+        }
+        await clientBulk.RequestStream.CompleteAsync();
+
+        var response =  clientBulk;
+
+       //Console.WriteLine($"status: {response.ResponseStream.Current.Success} - Insert count {response.ResponseStream.Current.InsertCount}");
 
 
-    //    // var resultado = await client.InsertBulk();
-
-
-
-
+    }
 }

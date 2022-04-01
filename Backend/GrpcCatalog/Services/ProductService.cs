@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcCatalog.Data;
 using GrpcCatalog.Domain;
@@ -95,6 +94,22 @@ namespace GrpcCatalog.Services
             return new DeleteResponse { Success = result > 0 };
         }
 
+
+
+        public override async Task<InsertBulkResponse> InsertBulk(IAsyncStreamReader<ProductModel> requestStream, IServerStreamWriter<InsertBulkResponse> responseStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext())
+            {
+                var _product = _mapper.Map<Product>(requestStream.Current);
+                await _repository.Add(_product);
+            }
+
+            return new InsertBulkResponse
+            {
+                Success = true,
+                InsertCount = 1
+            };
+        }
 
 
     }
