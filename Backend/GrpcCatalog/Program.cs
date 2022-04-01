@@ -16,7 +16,10 @@ builder.Services.AddDbContext<CatalogDbContext>(option =>
 
 builder.Services.AddAutoMapper(typeof(ProductProfile));
 
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(config =>
+{
+    config.EnableDetailedErrors = true;
+});
 
 
 var app = builder.Build();

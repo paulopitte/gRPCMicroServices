@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcCatalog.Protos;
 using GrpcCatalog.Services;
@@ -27,9 +28,33 @@ class Program
 
 
 
-
             Console.WriteLine("Incluindo Produtos inicial via Grpc...");
-            await AddAsync(client);
+            await AddAsync(client, new()
+            {
+                Sku = "SKU1",
+                Title = "IPhone 14 100Gb",
+                Price = 1_000_000,
+                StatusProduct = StatusProduct.Actived,
+                CreateAt = Timestamp.FromDateTime(DateTime.UtcNow),
+            });
+
+            await AddAsync(client, new()
+            {
+                Sku = "SKU2",
+                Title = "IPhone 15 200Gb",
+                Price = 2_000_000,
+                StatusProduct = StatusProduct.Actived,
+                CreateAt = Timestamp.FromDateTime(DateTime.UtcNow),
+            });
+
+            await AddAsync(client, new()
+            {
+                Sku = "SKU3",
+                Title = "IPhone 16 300Gb",
+                Price = 3_000_000,
+                StatusProduct = StatusProduct.Inatived,
+                CreateAt = Timestamp.FromDateTime(DateTime.UtcNow),
+            });
 
 
             Console.WriteLine("Obtendo Produtos via Grpc...");
@@ -77,28 +102,22 @@ class Program
 
 
 
-    private static async Task AddAsync(ProductProdtService.ProductProdtServiceClient client)
+    private static async Task AddAsync(ProductProdtService.ProductProdtServiceClient client, ProductModel product)
     {
-
         var result = await client.AddAsync(new()
         {
             Product = new()
             {
-                Sku = "SKU1",
-                Title = "IPhone 14 100Gb",
-                Price = 1_000_000,
-                StatusProduct = StatusProduct.Actived
+                Sku = product.Sku,
+                Title = product.Title,
+                Price = product.Price,
+                StatusProduct = product.StatusProduct
             }
         });
 
-        Console.WriteLine($"Product Add response:  { result.Title }");
+        Console.WriteLine($"Product Add response:  { result.Title } => { result.Id.ToString()}");
     }
-
-
-
-
-    // var resultado = await client.InsertBulk();
-
+ 
 
 
 

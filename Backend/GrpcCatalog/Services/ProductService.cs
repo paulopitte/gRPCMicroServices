@@ -37,7 +37,7 @@ namespace GrpcCatalog.Services
             if (product is null)
             {
                 //grpc excpetion
-                throw new RpcException(status: Grpc.Core.Status.DefaultCancelled);
+                throw new RpcException(status: new Status(StatusCode.NotFound, $" Product with ID: {request.Id} is not found."));
             }
 
             var productModel = _mapper.Map<ProductModel>(product);
@@ -53,7 +53,7 @@ namespace GrpcCatalog.Services
             if (products.Count == 0)
             {
                 //grpc excpetion
-                throw new RpcException(status: Grpc.Core.Status.DefaultCancelled, message: "Product not found...");
+                throw new RpcException(status: new Status(StatusCode.NotFound, $" Products is not found."));
             }
 
             products.ForEach(async product =>
@@ -76,9 +76,26 @@ namespace GrpcCatalog.Services
 
 
 
-        public override Task<ProductModel> Update(UpdateRequest request, ServerCallContext context)
+        public override async Task<ProductModel> Update(UpdateRequest request, ServerCallContext context)
         {
-            return base.Update(request, context);
+            var domain = _mapper.Map<Product>(request.Product);
+
+            var isExist = await _repository.GetProduct(domain.Id).ConfigureAwait(false);
+            if (isExist is null)
+                throw new RpcException(status: new Status(StatusCode.NotFound, $" Product with ID: {request.Product.Id} is not found."));
+
+            return _mapper.Map<ProductModel>(await _repository.Update(domain));
         }
+
+
+
+        public override async Task<DeleteResponse> Delete(DeleteRequest request, ServerCallContext context)
+        {
+            var result = await _repository.Delete(request.Id).ConfigureAwait(false);
+            return new DeleteResponse { Success = result > 0 };
+        }
+
+
+
     }
 }

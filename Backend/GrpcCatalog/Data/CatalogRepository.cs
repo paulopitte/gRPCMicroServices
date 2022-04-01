@@ -2,6 +2,7 @@
 using GrpcCatalog.Domain;
 using GrpcCatalog.Protos;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace GrpcCatalog.Data
 {
@@ -18,16 +19,49 @@ namespace GrpcCatalog.Data
         }
 
         public async Task<Product> Add(Product product)
-        {          
+        {
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product;
 
         }
 
+
+        public async Task<Product> Update(Product product)
+        {
+            _context.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //var result = _context.Update(product);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+
+                throw;
+            }
+            return product;
+
+        }
+
+
+        public async Task<int> Delete(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                throw new Exception();
+            }
+            _context.Products.Remove(product);
+            return await _context.SaveChangesAsync();
+        }
+
+
+
         public async Task<ProductModel> GetProduct(int id)
         {
-            var p = await _context.Products.FirstOrDefaultAsync(x=>x.Id == id);
+            var p = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (p is null)
                 return null;
 
@@ -37,7 +71,7 @@ namespace GrpcCatalog.Data
                 Sku = p.Sku,
                 Title = p.Title,
                 Price = p.Price,
-                StatusProduct =  Protos.StatusProduct.Actived,
+                StatusProduct = Protos.StatusProduct.Actived,
                 CreateAt = Timestamp.FromDateTime(p.CreateAt)
             };
         }
@@ -56,6 +90,8 @@ namespace GrpcCatalog.Data
                     CreateAt = Timestamp.FromDateTime(p.CreateAt)
                 }).ToList();
         }
+
+
     }
 
     public interface ICatalogRepository
@@ -64,6 +100,8 @@ namespace GrpcCatalog.Data
         Task<ProductModel> GetProduct(int id);
 
 
-        Task<Product> Add(Product product); 
+        Task<Product> Add(Product product);
+        Task<Product> Update(Product product);
+        Task<int> Delete(int product);
     }
 }
