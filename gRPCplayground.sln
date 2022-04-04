@@ -25,7 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCartWorkerService",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DIscount", "DIscount", "{6591E13D-874B-4C07-8372-99A045612996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountGrpc", "Discount\DiscountGrpc\DiscountGrpc.csproj", "{01B8AE6E-2BE0-4383-B796-8C8854FE62A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscountGrpc", "Discount\DiscountGrpc\DiscountGrpc.csproj", "{01B8AE6E-2BE0-4383-B796-8C8854FE62A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{A46D6E6D-A367-4522-B1DB-21328E2D6054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "Authentication\IdentityServer\IdentityServer.csproj", "{B0586EE6-0CF7-4BE2-88F2-C4409F632F44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{01B8AE6E-2BE0-4383-B796-8C8854FE62A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01B8AE6E-2BE0-4383-B796-8C8854FE62A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01B8AE6E-2BE0-4383-B796-8C8854FE62A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0586EE6-0CF7-4BE2-88F2-C4409F632F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0586EE6-0CF7-4BE2-88F2-C4409F632F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0586EE6-0CF7-4BE2-88F2-C4409F632F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0586EE6-0CF7-4BE2-88F2-C4409F632F44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +79,7 @@ Global
 		{966958D0-3FFD-4629-A8B1-F5EBFD9408ED} = {0ECD2EBB-BB07-4A6D-ACCB-134BC1ECE41D}
 		{13F2CB6E-5AEE-49E1-8EB2-CE37F6DB6045} = {FBA9ADFC-F44B-4F8C-86F6-7BFD190803D5}
 		{01B8AE6E-2BE0-4383-B796-8C8854FE62A2} = {6591E13D-874B-4C07-8372-99A045612996}
+		{B0586EE6-0CF7-4BE2-88F2-C4409F632F44} = {A46D6E6D-A367-4522-B1DB-21328E2D6054}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {14C16E33-64FF-42C1-8584-52580BBD9E34}
