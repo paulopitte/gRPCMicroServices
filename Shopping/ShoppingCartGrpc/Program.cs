@@ -1,4 +1,4 @@
-using gRPCPlayGround.Services;
+using ShoppingCartGrpc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

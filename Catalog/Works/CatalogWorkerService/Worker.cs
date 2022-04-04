@@ -29,7 +29,6 @@ namespace CatalogWorkerService
 
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-
                 await _catalogFactory.GetProductAsync().ConfigureAwait(false);
 
                 await Task.Delay(_configuration.GetValue<int>("WorkerService:TaskInterval"), stoppingToken);

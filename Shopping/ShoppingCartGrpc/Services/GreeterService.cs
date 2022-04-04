@@ -1,7 +1,7 @@
 using Grpc.Core;
-using gRPCPlayGround;
+using ShoppingCartGrpc;
 
-namespace gRPCPlayGround.Services
+namespace ShoppingCartGrpc.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {
@@ -17,13 +17,6 @@ namespace gRPCPlayGround.Services
             {
                 Message = "Hello " + request.Name
             });
-        }
-
-
-
-        public override Task<HelloReply> XXX(HelloRequest request, ServerCallContext context)
-        {
-            return base.XXX(request, context);
         }
     }
 }
