@@ -1,5 +1,3 @@
-using Grpc.Net.Client;
-using GrpcCatalog.Protos;
 using static System.Console;
 
 namespace CatalogWorkerService
@@ -22,7 +20,7 @@ namespace CatalogWorkerService
 
 
             WriteLine("Waiting for service is running....");
-            Task.Delay(TimeSpan.FromSeconds(5));
+            Task.Delay(TimeSpan.FromSeconds(8));
 
             while (!stoppingToken.IsCancellationRequested)
             {
