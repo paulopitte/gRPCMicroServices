@@ -29,8 +29,6 @@ namespace GrpcCatalog.Services
         public override async Task<ProductModel> GetProduct(GetProductRequest request, ServerCallContext context)
         {
             _logger.LogInformation($"Obtendo Produto ID: {request.Id} ...");
-
-
             var product = await _repository.GetProduct(request.Id);
 
             if (product is null)

@@ -121,8 +121,6 @@ class Program
         Console.WriteLine();
     }
 
-
-
     private static async Task AddAsync(ProductProdtService.ProductProdtServiceClient client, ProductModel product)
     {
         var result = await client.AddAsync(new()
@@ -139,7 +137,6 @@ class Program
 
         Console.WriteLine($"Product Add response:  { result.Title } => { result.Id.ToString()}");
     }
-
 
     private static async Task UpdateAsync(ProductProdtService.ProductProdtServiceClient client, ProductModel product)
     {
@@ -158,10 +155,6 @@ class Program
         });
 
     }
-
-
-
-
 
     private static async Task InsertBulk(ProductProdtService.ProductProdtServiceClient client)
     {
