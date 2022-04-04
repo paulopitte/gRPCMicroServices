@@ -20,7 +20,7 @@ namespace CatalogWorkerService
 
 
             WriteLine("Waiting for service is running....");
-            Task.Delay(TimeSpan.FromSeconds(8));
+            Task.Delay(TimeSpan.FromSeconds(10));
 
             while (!stoppingToken.IsCancellationRequested)
             {

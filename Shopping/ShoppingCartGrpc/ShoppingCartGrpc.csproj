@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\discount.proto" />
     <None Remove="Protos\shoppingcart.proto" />
   </ItemGroup>
 
@@ -19,8 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\discount.proto" />
-    <Protobuf Include="Protos\shoppingcart.proto" />
+    <Protobuf Include="..\..\Discount\DiscountGrpc\Protos\discount.proto" GrpcServices="Client">
+      <Link>Protos\discount.proto</Link>
+    </Protobuf>
+    <Protobuf Include="Protos\shoppingcart.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
