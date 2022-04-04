@@ -1,10 +1,6 @@
 ﻿using DiscountGrpc.Data;
 using DiscountGrpc.Protos;
 using Grpc.Core;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DiscountGrpc.Services
 {
@@ -27,7 +23,8 @@ namespace DiscountGrpc.Services
             {
                 DiscountId = discount.DiscountId,
                 Code = discount.Code,
-                Amount = discount.Amount
+                Amount = discount.Amount,
+                Sku = "SKU_TEST"
             });
         }
 

@@ -1,3 +1,4 @@
+using DiscountGrpc.Protos;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCartGrpc.Data;
 using ShoppingCartGrpc.Services;
@@ -9,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
+    (o => o.Address = new Uri(builder.Configuration.GetValue<string>("GrpcConfigs:DiscountUrl")));
+
 
 
 builder.Services.AddDbContext<ShoppingCartContext>(op =>
