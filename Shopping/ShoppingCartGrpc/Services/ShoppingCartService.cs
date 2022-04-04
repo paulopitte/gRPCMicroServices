@@ -2,14 +2,9 @@
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ShoppingCartGrpc.Data;
 using ShoppingCartGrpc.Models;
 using ShoppingCartGrpc.Protos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShoppingCartGrpc.Services
 {
@@ -75,7 +70,8 @@ namespace ShoppingCartGrpc.Services
                 var shoppingCart = await _shoppingCartDbContext.ShoppingCart.FirstOrDefaultAsync(s => s.UserName == requestStream.Current.Username);
                 if (shoppingCart == null)
                 {
-                    throw new RpcException(new Status(StatusCode.NotFound, $"ShoppingCart with UserName={requestStream.Current.Username} is not found."));
+                    throw new RpcException(new Status(StatusCode.NotFound, 
+                        $"ShoppingCart with UserName={requestStream.Current.Username} is not found."));
                 }
 
                 var newAddedCartItem = _mapper.Map<ShoppingCartItem>(requestStream.Current.NewCartItem);

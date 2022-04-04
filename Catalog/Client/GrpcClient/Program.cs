@@ -7,7 +7,7 @@ using GrpcCatalog.Services;
 class Program
 {
 
-    private const string SERVER_GRPC = "https://localhost:7069";
+    private const string SERVER_GRPC = "https://localhost:5001";
 
 
     static async Task Main()
